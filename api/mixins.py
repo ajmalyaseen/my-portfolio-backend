@@ -6,6 +6,15 @@ from .utils import BlogUtils
 class BaseLikeToggleView(APIView):
     model_class=None
     foreign_key_field = ''
+    def get(self, request, pk):
+        ip = BlogUtils.get_user_ip(request)
+        data = {
+            'user_ip': ip,
+            self.foreign_key_field: pk
+        }
+        # Check if this IP has already liked this item
+        is_liked = self.model_class.objects.filter(**data).exists()
+        return Response({'is_liked': is_liked})
 
     def post(self,request,pk):
         ip=BlogUtils.get_user_ip(request)
