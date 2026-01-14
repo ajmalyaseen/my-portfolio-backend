@@ -11,9 +11,9 @@ class BlogListSerializer(serializers.ModelSerializer):
 # Serializer for individual blog comments.
 class CommentsSerilizer(serializers.ModelSerializer):
     class Meta:
-        model=CommentTable
-        fields='__all__'
-        read_only_fields=['posted_at']
+        model = CommentTable
+        fields = '__all__'
+        read_only_fields = ['posted_at', 'blog']
 
 
 # Serializer for retrieving full blog details, including comments and total likes.
