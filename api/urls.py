@@ -17,7 +17,7 @@ urlpatterns = [
     # Endpoint to retrieve details of a specific blog post by ID.
     path('blog/<int:pk>/', BlogDetailView.as_view(), name='blog-detail'),
     # Endpoint for submitting a comment on a blog post.
-    path('comment/create/',CommentCreateView.as_view(),name='comment-create'),
+    path('blog/<int:pk>/comment/create/',CommentCreateView.as_view(),name='comment-create'),
     # Endpoint to like or unlike a blog post.
     path('blog/<int:pk>/like/',Likeblog.as_view(),name='like-blog'),
     # Endpoint to retrieve a list of all portfolio projects.

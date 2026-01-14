@@ -14,6 +14,5 @@ class BlogUtils:
         if not ip:
             return None
         
-        hashed_ip=hashlib.sha256(ip.encode('utf-8')).hexdigest()
-        return hashed_ip
+        return ip
     

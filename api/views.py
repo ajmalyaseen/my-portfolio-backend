@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import generics,permissions
 from .models import Blogmodel,CommentTable,LikeTableBlog,LikeTableProjects,Projectmodel,Gallerymodel,ContactForm
 from .serializer import BlogListSerializer,BlogDetailSerializer,CommentsSerilizer,ProjectSerializer,GallerySerializer,ContactSerializer
@@ -9,6 +8,8 @@ from .utils import BlogUtils
 from .mixins import BaseLikeToggleView
 from .task import send_mail_users
 from rest_framework import status
+from rest_framework.exceptions import ValidationError
+from django.db import IntegrityError
 
 # View to list all blog posts, ordered by the most recent first.
 class BlogListView(generics.ListAPIView):
@@ -28,6 +29,12 @@ class CommentCreateView(generics.CreateAPIView):
     queryset=CommentTable.objects.all()
     serializer_class=CommentsSerilizer
     permission_classes=[permissions.AllowAny]
+    def perform_create(self, serializer):
+        blog_id = self.kwargs.get('pk')
+        try:
+            serializer.save(blog_id=blog_id)
+        except IntegrityError:
+            raise ValidationError("invalid blog id.")
 
 # Endpoint for liking/unliking a blog post.
 class Likeblog(BaseLikeToggleView):
