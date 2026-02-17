@@ -36,7 +36,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Projectmodel
         fields = '__all__'
     def get_total_like(self,obj):
-        total_like=LikeTableProjects.objects.filter(liked_project_id=obj.id)
+        total_like=LikeTableProjects.objects.filter(liked_project_id=obj.id).count()
         return total_like
 
 # Serializer for gallery items.
